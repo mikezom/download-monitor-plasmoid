@@ -13,7 +13,9 @@ MouseArea {
     readonly property bool inTray: (Plasmoid.containmentDisplayHints & PlasmaCore.Types.ContainmentForcesSquarePlasmoids) !== 0
     readonly property bool horizontal: Plasmoid.formFactor === PlasmaCore.Types.Horizontal
     readonly property bool showLabel: !inTray && horizontal && root.ring.label !== ""
-    readonly property real badgeSize: horizontal ? height : width
+    // The tray cell is taller than it is wide; a height-sized badge pinned left sat 4 px right of
+    // centre. Without a label the badge is the largest square that fits, centred in the cell.
+    readonly property real badgeSize: showLabel ? height : Math.min(width, height)
     // The tray cell is larger than the icons drawn in it; sizing the ring to the cell made it
     // ~1.4× its neighbours, so in the tray it follows the tray's icon size instead.
     readonly property real ringSize: inTray
@@ -24,9 +26,10 @@ MouseArea {
         : Math.round(badgeSize * 0.7)
     property bool wasExpanded: false
 
-    Layout.minimumWidth: horizontal ? row.implicitWidth : -1
+    // Sized from the panel thickness, never from badgeSize, so width and badgeSize cannot bind in a loop.
+    Layout.minimumWidth: horizontal ? (showLabel ? row.implicitWidth : height) : -1
     Layout.preferredWidth: Layout.minimumWidth
-    Layout.minimumHeight: horizontal ? -1 : badgeSize
+    Layout.minimumHeight: horizontal ? -1 : width
 
     hoverEnabled: true
     onPressed: wasExpanded = root.expanded
@@ -35,8 +38,7 @@ MouseArea {
     RowLayout {
         id: row
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
+        anchors.centerIn: parent
         spacing: Kirigami.Units.smallSpacing
 
         Item {
