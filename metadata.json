@@ -1,0 +1,23 @@
+{
+  "KPackageStructure": "Plasma/Applet",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "mikezom"
+      }
+    ],
+    "Category": "System Information",
+    "Description": "Shows the progress of download jobs that report to $XDG_STATE_HOME/dlmon/jobs",
+    "Description[zh_CN]": "显示向 $XDG_STATE_HOME/dlmon/jobs 报告状态的下载任务进度",
+    "EnabledByDefault": true,
+    "Icon": "download",
+    "Id": "com.mikezom.dlmon",
+    "License": "MIT",
+    "Name": "Download Monitor",
+    "Name[zh_CN]": "下载监控",
+    "Version": "1.0.0"
+  },
+  "X-Plasma-API-Minimum-Version": "6.0",
+  "X-Plasma-NotificationArea": "true",
+  "X-Plasma-NotificationAreaCategory": "ApplicationStatus"
+}
